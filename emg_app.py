@@ -44,6 +44,31 @@ chart_data = pd.DataFrame(list(zip(SX1, SX2,SX3, SX4)),columns=['Movement 1', 'M
 
 st.line_chart(chart_data)
 
-#%% PREDICTION
+
+#%%SELECT SIGNAL TO PREDICT
+
 st.write("Now, predict with the csv file. You can choose a trascender signal and predict what movement was doing!")
+
+df = pd.read_csv('trascenderglobal-testing-EMG.csv')
+
+data = df.iloc[0:12,:]
+st.write('### Signals', data)
+
+values=[]
+names = data['team member'].tolist()
+mov = data['label'].to_list()
+
+for i in range(len(names)):
+    values.append(f'{names[i]}- Movement {mov[i]}')
+
+options = data.index.tolist() 
+dic = dict(zip(options, values))
+
+option = st.selectbox('Choose a signal', options, format_func=lambda x: dic[x])
+
+selected_rows = data.loc[option]
+st.write('### Selected Rows', selected_rows)
+
+#%% PREDICTION
+
 
